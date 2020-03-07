@@ -1,0 +1,120 @@
+/**通用基础依赖配置表*/
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.name)
+    }
+}
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+
+
+    androidExtensions {
+        experimental = true
+    }
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0.0"
+        // 增加对svg图像的支持
+        vectorDrawables.useSupportLibrary = true
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        // apk 方法数超过 65536 限制，进行分包处理
+        multiDexEnabled true
+        dexOptions {
+            javaMaxHeapSize "3g"
+        }
+
+        generatedDensities = []
+    }
+
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas")
+
+        main {
+            jniLibs.srcDir(['libs'])
+            res.srcDirs += [
+                    'src/main/res'
+            ]
+        }
+    }
+
+    buildTypes {
+        release {
+            // 开启混淆
+            minifyEnabled false
+            // 压缩优化
+            zipAlignEnabled true
+            // 默认的混淆文件以及我们指定的混淆文件，子模块使用 consumerProguardFiles
+            consumerProguardFiles 'proguard-rules.pro'
+            // 默认的混淆文件以及我们指定的混淆文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            // 开启混淆
+            minifyEnabled false
+            // 压缩优化
+            zipAlignEnabled true
+        }
+    }
+
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    kapt 'com.alibaba:arouter-compiler:1.2.2'
+
+    // 网络服务
+    api 'com.github.hslooooooool.abcl-c:core-netservice:1.9.8'
+    // 异常捕获
+    api 'com.github.hslooooooool.abcl-c:core-exception:1.9.8'
+    // 选择
+    api 'com.github.hslooooooool:qsos-select:1.1'
+    api 'com.github.hslooooooool:qsos-filepicker:1.2'
+
+    // android
+    api 'androidx.navigation:navigation-fragment-ktx:2.2.1'
+    api 'androidx.navigation:navigation-ui-ktx:2.2.1'
+    api 'com.google.android.material:material:1.2.0-alpha05'
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.2.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+// 获取编译时间
+static def apkTime() {
+    return new Date().format("yyyy-MM-dd hh:mm:ss", TimeZone.getTimeZone("UTC"))
+}
+
+ext.time = apkTime()

@@ -11,9 +11,8 @@ kapt {
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     buildToolsVersion "29.0.2"
-
 
     androidExtensions {
         experimental = true
@@ -21,7 +20,7 @@ android {
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0.0"
         // 增加对svg图像的支持
@@ -84,37 +83,20 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-    kapt 'com.alibaba:arouter-compiler:1.2.2'
-
-    // 网络服务
-    api 'com.github.hslooooooool.abcl-c:core-netservice:1.9.8'
-    // 异常捕获
-    api 'com.github.hslooooooool.abcl-c:core-exception:1.9.8'
-    // 选择
-    api 'com.github.hslooooooool:qsos-select:1.1'
-    api 'com.github.hslooooooool:qsos-filepicker:1.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72"
 
     // android
-    api 'androidx.navigation:navigation-fragment-ktx:2.2.1'
-    api 'androidx.navigation:navigation-ui-ktx:2.2.1'
-    api 'com.google.android.material:material:1.2.0-alpha05'
+    implementation 'androidx.core:core-ktx:1.3.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
+    implementation 'com.google.android.material:material:1.3.0-alpha02'
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.2.0'
 }
 
 repositories {
     mavenCentral()
 }
-
-// 获取编译时间
-static def apkTime() {
-    return new Date().format("yyyy-MM-dd hh:mm:ss", TimeZone.getTimeZone("UTC"))
-}
-
-ext.time = apkTime()

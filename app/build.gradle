@@ -11,4 +11,15 @@ android {
 }
 
 dependencies {
+    // 网络服务
+    api 'com.github.hslooooooool:utils-net:0.3'
+    // 异常捕获
+    api 'com.github.hslooooooool:utils-exception:0.3'
+    // 选择
+    api 'com.github.hslooooooool:qsos-select:1.1'
+    api 'com.github.hslooooooool:qsos-filepicker:1.2'
+    api 'com.github.hslooooooool:qsos-timepicker:1.0'
+
+    // 脚手架
+    api 'com.github.hslooooooool:abcl-l:3.0'
 }
